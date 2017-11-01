@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "standard",
+    "eslint:recommended"
+  ],
+  "plugins": [
+    "promise",
+    "node",
+    "import",
+    "standard"
+  ],
+  "rules": {
+     "no-console":0
+   },
+   "globals": {
+      "describe": true,
+      "it": true
+    }
+}
