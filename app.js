@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config()
+
 const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -14,14 +16,13 @@ const port = 8082;
 const app = express();
 
 mongoose.connect(database.localUrl);
-app.use(morgan('dev'));
+
+if (process.env.ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-app.get('/metrics', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(metrics.metrics.getAll(req.query.reset));
-});
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');

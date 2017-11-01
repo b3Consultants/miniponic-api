@@ -1,19 +1,29 @@
 {
   "extends": [
     "standard",
-    "eslint:recommended"
+    "standard-jsx",
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
+  "parser": "babel-eslint",
   "plugins": [
-    "promise",
-    "node",
     "import",
+    "node",
+    "promise",
+    "react",
     "standard"
   ],
   "rules": {
-     "no-console":0
-   },
-   "globals": {
-      "describe": true,
-      "it": true
-    }
+    "comma-dangle": ["error", "never"],
+    "react/prop-types": [0]
+  },
+  "globals": {
+    "__DEV__": false,
+    "it": false,
+    "expect": false,
+    "describe": false,
+    "jest": false,
+    "__STAGING__": false,
+    "localStorage": false
+  }
 }

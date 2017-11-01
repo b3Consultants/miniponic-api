@@ -41,4 +41,5 @@ elmaco93/miniponic-api:
     - PORT: 8082
 
   Exec:
-    - /usr/bin/nodejs app.js
+    - sudo cp /home/ubuntu/.env .
+    - /home/ubuntu/.nvm/versions/node/v8.4.0/bin/node app.js
