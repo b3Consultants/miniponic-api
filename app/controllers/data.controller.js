@@ -26,11 +26,11 @@ module.exports = {
     });
   },
   get(req, res) {
-    const { mpid } = req.params;
+    const { mpid, limit } = req.params;
     Repos.isRegisted(mpid)
     .then((resolve) => {
       if (resolve) {
-        Data.find({}).sort({'timestamp': -1}).limit(5).exec((error, data) => {
+        Data.find({}).sort({'timestamp': -1}).limit(parseInt(limit)).exec((error, data) => {
           if (error) return res.status(400).send('Error Getting Data');
           return res.status(200).json(data)
         });
