@@ -32,11 +32,32 @@ module.exports = {
       if (resolve) {
         Data.find({}).sort({'timestamp': -1}).limit(parseInt(limit)).exec((error, data) => {
           if (error) return res.status(400).send('Error Getting Data');
-          return res.status(200).json(data)
+          const dataToSend = [];
+          for (let i = 0; i < data.length; i++) {
+            const value = data[i];
+            value.data.photo = '';
+            dataToSend.push(value);
+          }
+          return res.status(200).json(dataToSend)
         });
       } else {
         res.status(404).send('Miniponic Not Found');
       }
     });
   },
+
+  getPhoto(req, res) {
+    const { mpid } = req.params;
+    Repos.isRegisted(mpid)
+    .then((resolve) => {
+      if (resolve) {
+        Data.find({}).sort({'timestamp': -1}).limit(1).exec((error, data) => {
+          if (error) return res.status(400).send('Error Getting Data');
+          return res.status(200).json(data[0].data.photo)
+        });
+      } else {
+        res.status(404).send('Miniponic Not Found');
+      }
+    });
+  }
 };

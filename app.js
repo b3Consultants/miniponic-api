@@ -12,7 +12,7 @@ const Miniponic = require('./app/index');
 const Data = require('./app/routes/data.js');
 
 const port = 8082;
-
+const bodyParserLimit50Mb = 52428800
 const app = express();
 
 mongoose.connect(database.localUrl);
@@ -23,6 +23,7 @@ if (process.env.ENV === 'development') {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit:bodyParserLimit50Mb, type:'application/json'}));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
