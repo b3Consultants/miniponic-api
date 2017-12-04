@@ -32,12 +32,12 @@ module.exports = {
       if (resolve) {
         Data.find({}).sort({'timestamp': -1}).limit(parseInt(limit)).exec((error, data) => {
           if (error) return res.status(400).send('Error Getting Data');
-          const dataToSend = [];
-          for (let i = 0; i < data.length; i++) {
-            const value = data[i];
-            value.data.photo = '';
-            dataToSend.push(value);
-          }
+          const dataToSend = data.map(value => ({
+            temperature: value.data.temperature,
+            humidity: value.data.humidity,
+            luminosity: value.data.luminosity,
+            timestamp: value.timestamp
+          }));
           return res.status(200).json(dataToSend)
         });
       } else {
