@@ -51,7 +51,7 @@ module.exports = {
     Repos.isRegisted(mpid)
     .then((resolve) => {
       if (resolve) {
-        Photo.find({}).sort({'timestamp': -1}).limit(1).exec((error, data) => {
+        Photo.find({}).sort({'_id': -1}).limit(1).exec((error, data) => {
           if (error) return res.status(400).send(error);
           return res.status(200).json(data[0].photo)
         });

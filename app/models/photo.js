@@ -10,9 +10,5 @@ module.exports = mongoose.model('photos', {
   photo: {
     type: String,
     default: '',
-  },
-  timestamp: {
-    type: Date,
-    default: '',
-  },
+  }
 });
