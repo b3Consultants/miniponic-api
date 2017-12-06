@@ -31,8 +31,8 @@ module.exports = {
     Repos.isRegisted(mpid)
     .then((resolve) => {
       if (resolve) {
-        Data.find({}).exec((error, data) => {
-          if (error) return res.status(400).send(error);
+        Data.find({}).sort({'timestamp': -1}).limit(parseInt(limit)).exec((error, data) => {
+          if (error) return res.status(400).send('Error Getting Data');
           const dataToSend = data.map(value => ({
             temperature: value.data.temperature,
             humidity: value.data.humidity,
