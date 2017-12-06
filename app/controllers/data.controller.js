@@ -2,6 +2,7 @@
 
 const Repos = require('../repos/repos');
 const Data = require('../models/data');
+const Photo = require('../models/photo');
 
 // add new miniponic data
 module.exports = {
@@ -30,8 +31,8 @@ module.exports = {
     Repos.isRegisted(mpid)
     .then((resolve) => {
       if (resolve) {
-        Data.find({}).sort({'timestamp': -1}).limit(parseInt(limit)).exec((error, data) => {
-          if (error) return res.status(400).send('Error Getting Data');
+        Data.find({}).exec((error, data) => {
+          if (error) return res.status(400).send(error);
           const dataToSend = data.map(value => ({
             temperature: value.data.temperature,
             humidity: value.data.humidity,
@@ -45,19 +46,39 @@ module.exports = {
       }
     });
   },
-
   getPhoto(req, res) {
     const { mpid } = req.params;
     Repos.isRegisted(mpid)
     .then((resolve) => {
       if (resolve) {
-        Data.find({}).sort({'timestamp': -1}).limit(1).exec((error, data) => {
-          if (error) return res.status(400).send('Error Getting Data');
-          return res.status(200).json(data[0].data.photo)
+        Photo.find({}).sort({'timestamp': -1}).limit(1).exec((error, data) => {
+          if (error) return res.status(400).send(error);
+          return res.status(200).json(data[0].photo)
         });
       } else {
         res.status(404).send('Miniponic Not Found');
       }
     });
-  }
+  },
+
+  createPhoto(req, res) {
+    const { mpid } = req.params;
+    Repos.isRegisted(mpid)
+    .then((resolve) => {
+      if (resolve) {
+        const photo = req.body.photo;
+        const timestamp = req.body.timestamp;
+        Photo.create({
+          id: mpid,
+          photo,
+          timestamp,
+        }, (error) => {
+          if (error) return res.status(400).send(error);
+          return res.status(200).send('Photo Added Correctly');
+        });
+      } else {
+        res.status(404).send('Miniponic Not Found');
+      }
+    });
+  },
 };
