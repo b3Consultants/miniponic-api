@@ -81,4 +81,15 @@ module.exports = {
       }
     });
   },
+  delete(req, res) {
+    const { mpid, limit } = req.params;
+    Repos.isRegisted(mpid)
+    .then((resolve) => {
+      if (resolve) {
+        Data.find({}).sort({'timestamp': -1}).limit(parseInt(limit)).remove().exec();
+      } else {
+        res.status(404).send('Miniponic Not Found');
+      }
+    });
+  },
 };
